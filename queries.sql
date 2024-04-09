@@ -13,12 +13,10 @@ CREATE VIEW Trait AS
 	SELECT animal_id, trait_code, alpha_value AS value
 	FROM SessionAnimalTrait; 
 
-SELECT value, overall_adg
+SELECT value, overall_adg, animal_id
 FROM Trait JOIN Goat ON goat_id=animal_id
 WHERE trait_code=(
 	SELECT picklistvalue_id FROM Picklist WHERE value='Vigor Score'
-) OR trait_code=(
-	SELECT picklistvalue_id FROM Picklist WHERE value='Dead'
 )
-ORDER BY overall_adg DESC;
+ORDER BY value DESC;
 
