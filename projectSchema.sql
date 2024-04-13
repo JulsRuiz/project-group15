@@ -162,7 +162,7 @@ FROM Animal;
 
 INSERT INTO Trait
 SELECT animal_id, trait_code,
-CASE WHEN length(T.alpha_value) = 0 THEN '0' 
+CASE WHEN length(T.alpha_value) = 0 THEN '-1' 
 ELSE T.alpha_value END AS alpha_value, when_measured
 FROM SessionAnimalTrait AS T;
 
