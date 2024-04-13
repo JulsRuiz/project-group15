@@ -136,7 +136,7 @@ DROP TABLE Goat;
 CREATE TABLE Goat (
 	goat_id integer primary key,
 	sex varchar(20) NOT NULL default '',
-	overall_adg varchar(20) NOT NULL default ''
+	overall_adg varchar(20) NOT NULL DEFAULT '0'
 );
 
 CREATE TABLE Picklist (
@@ -155,12 +155,16 @@ CREATE TABLE Trait (
 
 
 INSERT INTO Goat
-SELECT animal_id, sex, overall_adg
+SELECT animal_id, sex, 
+CASE WHEN length(Animal.overall_adg) = 0 THEN '0' 
+ELSE Animal.overall_adg END AS overall_adg
 FROM Animal;
 
 INSERT INTO Trait
-SELECT animal_id, trait_code, alpha_value, when_measured
-FROM SessionAnimalTrait;
+SELECT animal_id, trait_code,
+CASE WHEN length(T.alpha_value) = 0 THEN '0' 
+ELSE T.alpha_value END AS alpha_value, when_measured
+FROM SessionAnimalTrait AS T;
 
 INSERT INTO Picklist
 SELECT picklistvalue_id, value
