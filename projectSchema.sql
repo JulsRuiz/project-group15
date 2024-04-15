@@ -150,12 +150,15 @@ CREATE TABLE Picklist (
 
 CREATE TABLE Trait (
 	goat_id integer NOT NULL REFERENCES Goat,
-	trait_code integer NOT NULL,
+	trait_code integer NOT NULL REFERENCES Picklist,
 	alpha_value varchar(20) NOT NULL default '',
 	when_measured timestamp NOT NULL,
 	primary key(goat_id, trait_code, when_measured)
 );
 
+INSERT INTO Picklist
+SELECT picklistvalue_id, value
+FROM PicklistValue;
 
 INSERT INTO Goat
 SELECT animal_id, sex, dob, status, status_date,
@@ -168,7 +171,3 @@ SELECT animal_id, trait_code,
 CASE WHEN length(T.alpha_value) = 0 THEN '-1' 
 ELSE T.alpha_value END AS alpha_value, when_measured
 FROM SessionAnimalTrait AS T;
-
-INSERT INTO Picklist
-SELECT picklistvalue_id, value
-FROM PicklistValue;
