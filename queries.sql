@@ -31,10 +31,10 @@ WHERE trait_code = '230'
 GROUP BY vigor
 ORDER BY vigor;
 
-DROP VIEW Births;
-DROP VIEW Deaths;
 DROP VIEW Dead;
 DROP VIEW Total;
+DROP VIEW Births;
+DROP VIEW Deaths;
 
 
 
