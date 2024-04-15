@@ -136,6 +136,9 @@ DROP TABLE Goat;
 CREATE TABLE Goat (
 	goat_id integer primary key,
 	sex varchar(20) NOT NULL default '',
+	dob timestamp,
+	status varchar(20) NOT NULL default '',
+	status_date timestamp,
 	overall_adg varchar(20) NOT NULL DEFAULT '0'
 );
 
@@ -155,7 +158,7 @@ CREATE TABLE Trait (
 
 
 INSERT INTO Goat
-SELECT animal_id, sex, 
+SELECT animal_id, sex, dob, status, status_date,
 CASE WHEN length(Animal.overall_adg) = 0 THEN '0' 
 ELSE Animal.overall_adg END AS overall_adg
 FROM Animal;
