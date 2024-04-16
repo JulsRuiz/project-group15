@@ -3,7 +3,6 @@ It will also be generating separate graphs of the average birth weight compariso
 
 Queries and Views:
 -
-Views used in the database: 
 - Births: The queries will create a view that will be returning a table of the date of birth of each goat in the database by using the goat id and date of birth
 
 - Deaths: The queries will create a view will be returning a table of each goat in the database that has died by using the goat id and checking if the status date of the goat is "dead".
