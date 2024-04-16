@@ -16,23 +16,11 @@ CREATE VIEW Deaths AS
 	FROM Goat
 	WHERE status = 'Dead';
 
-CREATE VIEW Dead AS
-SELECT Births.goat_id, Deaths.date - Births.date AS Lifespan
-FROM Births JOIN Deaths ON Births.goat_id = Deaths.goat_id
-WHERE Deaths.date - Births.date <= '2922 days';
-
-CREATE VIEW Total AS
+CREATE VIEW Lifespan AS
 SELECT Births.goat_id, Deaths.date - Births.date AS Lifespan
 FROM Births JOIN Deaths ON Births.goat_id = Deaths.goat_id;
 
-SELECT CAST(alpha_value AS integer) AS vigor, Count(Dead) as Dead_count, Count(Total) as Total_count, (Count(Dead)::numeric / Count(Total)) as Death_rate
-FROM Trait JOIN (Dead RIGHT JOIN Total ON Dead.goat_id = Total.goat_id) ON Trait.goat_id = Total.goat_id
-WHERE trait_code = '230'
-GROUP BY vigor
-ORDER BY vigor;
-
-DROP VIEW Dead;
-DROP VIEW Total;
+DROP VIEW Lifespan;
 DROP VIEW Births;
 DROP VIEW Deaths;
 
