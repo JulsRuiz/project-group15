@@ -36,11 +36,30 @@ CREATE VIEW BirthWeight AS
 	WHERE trait_code = '357' AND NOT alpha_value = '0.0' AND NOT alpha_value = '-1';
 
 CREATE VIEW BirthYear AS
-	SELECT goat_id, EXTRACT('Year' FROM dob) AS Year
+	SELECT goat_id, sex, EXTRACT('Year' FROM dob) AS Year
 	FROM Goat;
 
-SELECT Year, ROUND(AVG(weight):: numeric, 3)
-FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
+CREATE VIEW GoatBW AS
+	SELECT Year, sex, ROUND(AVG(weight):: numeric, 3) as bw
+	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id;
+
+--Just their birthweights
+SELECT Year, bw
+FROM GoatBW
+GROUP BY Year
+ORDER BY Year;
+
+--Female birthweights
+SELECT *
+FROM GoatBW
+WHERE sex = 'Female' OR sex = 'F'
+GROUP BY Year
+ORDER BY Year;
+
+--Male birthweights
+SELECT *
+FROM GoatBw
+WHERE sex = 'Male' OR sex = 'M' OR sex = 'Wether' OR sex = 'Desexed M'
 GROUP BY Year
 ORDER BY Year;
 
