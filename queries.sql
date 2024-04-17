@@ -58,8 +58,11 @@ ORDER BY Year;
 
 --Male birthweights
 SELECT *
-FROM GoatBw
+FROM GoatBW
 WHERE sex = 'Male' OR sex = 'M' OR sex = 'Wether' OR sex = 'Desexed M'
 GROUP BY Year
 ORDER BY Year;
 
+DROP VIEW GoatBW;
+DROP VIEW BirthYear;
+DROP VIEW BirthWeight;
