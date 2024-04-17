@@ -42,7 +42,7 @@ CREATE VIEW BirthYear AS
 CREATE VIEW GoatBW AS
 	SELECT Year, sex, ROUND(AVG(weight):: numeric, 3) as bw
 	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
-	GROUP BY Year;
+	GROUP BY Year, sex;
 
 --Just their birthweights
 SELECT Year, bw
