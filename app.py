@@ -54,7 +54,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import matplotlib as mpl
-#from flask import Flask, render_template, request
+from flask import Flask, render_template, request
 
 # Connect to the PostgreSQL database server
 def connect(query):
@@ -90,8 +90,32 @@ def read_file_to_string(filename):
 	file = open(filename, 'r')
 	content = file.read()
 	return content
+
+# app.py
+app = Flask(__name__)
+
+
+# serve form web page
+@app.route("/")
+def form():
+    return render_template('my-form.html')
+
+# handle venue POST and serve result web page
+@app.route('/venue-handler', methods=['POST'])
+def venue_handler():
+    rows = connect('SELECT venue_id, title FROM events WHERE venue_id = ' + request.form['venue_id'] + ';')
+    heads = ['venue_id', 'title']
+    return render_template('my-result.html', rows=rows, heads=heads)
+
+# handle query POST and serve result web page
+@app.route('/query-handler', methods=['POST'])
+def query_handler():
+    rows = connect(request.form['query'])
+    return render_template('my-result.html', rows=rows)
+
  
 if __name__ == '__main__':
+	app.run(debug = True)
 	#read queries into string
 	query = read_file_to_string('query.txt')
 	row = connect(query)
