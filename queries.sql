@@ -24,6 +24,10 @@ CREATE VIEW Lifespan AS
 	SELECT Births.goat_id, Deaths.date - Births.date AS Lifespan
 	FROM Births JOIN Deaths ON Births.goat_id = Deaths.goat_id;
 
+--Lifespan of every goat that died on the farm
+SELECT *
+FROM Lifespan;
+
 DROP VIEW Lifespan;
 DROP VIEW Births;
 DROP VIEW Deaths;
@@ -40,27 +44,39 @@ CREATE VIEW BirthYear AS
 	FROM Goat;
 
 CREATE VIEW GoatBW AS
-	SELECT Year, sex, ROUND(AVG(weight):: numeric, 3) as bw
+	SELECT Year, ROUND(AVG(weight):: numeric, 3) as bw
 	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
-	GROUP BY Year, sex;
+	GROUP BY Year
+	ORDER BY Year;
+
+CREATE VIEW MaleBW AS
+	SELECT Year, ROUND(AVG(weight):: numeric, 3) as Mbw
+	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
+	WHERE sex = 'Male' OR sex = 'Wether' OR sex = 'M' OR sex = 'Desexed M'
+	GROUP BY Year
+	ORDER BY Year;
+
+CREATE VIEW FemaleBW AS
+	SELECT Year, ROUND(AVG(weight):: numeric, 3) as Fbw
+	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
+	WHERE sex = 'Female'
+	GROUP BY Year
+	ORDER BY Year;
 
 --Just their birthweights
-SELECT Year, bw
-FROM GoatBW
-ORDER BY Year;
+SELECT *
+FROM GoatBW;
 
 --Female birthweights
 SELECT *
-FROM GoatBW
-WHERE sex = 'Female' OR sex = 'F'
-ORDER BY Year;
+FROM MaleBW;
 
 --Male birthweights
 SELECT *
-FROM GoatBW
-WHERE sex = 'Male' OR sex = 'M' OR sex = 'Wether' OR sex = 'Desexed M'
-ORDER BY Year;
+FROM FemaleBW;
 
 DROP VIEW GoatBW;
+DROP VIEW MaleBW;
+DROP VIEW FemaleBW;
 DROP VIEW BirthYear;
 DROP VIEW BirthWeight;
