@@ -106,3 +106,10 @@ if __name__ == '__main__':
 	fig, axs = plt.subplots(1, 1, sharey=True, tight_layout=True)
 	axs.hist(data, bins=nBins)
 	plt.show()
+
+	#second query
+	query = read_file_to_string('query2.txt')
+	year1 = input("Enter year 1: \n")
+	year2 = input("Enter year 2: \n")
+	
+	print(connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + ";"))
