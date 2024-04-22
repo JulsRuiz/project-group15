@@ -101,11 +101,13 @@ def form():
     return render_template('my-form.html')
 
 # handle venue POST and serve result web page
-@app.route('/venue-handler', methods=['POST'])
+@app.route('/query-1', methods=['POST'])
 def venue_handler():
-    rows = connect('SELECT venue_id, title FROM events WHERE venue_id = ' + request.form['venue_id'] + ';')
-    heads = ['venue_id', 'title']
-    return render_template('my-result.html', rows=rows, heads=heads)
+  	#read queries into string
+	query = read_file_to_string('query.txt')
+	rows = connect(query)
+	heads = ['vigor', 'average adg']
+	return render_template('my-result.html', rows=rows, heads=heads)
 
 # handle query POST and serve result web page
 @app.route('/query-handler', methods=['POST'])
@@ -113,7 +115,6 @@ def query_handler():
     rows = connect(request.form['query'])
     return render_template('my-result.html', rows=rows)
 
- 
 if __name__ == '__main__':
 	app.run(debug = True)
 	#read queries into string
@@ -129,7 +130,7 @@ if __name__ == '__main__':
 	nBins = 40
 	fig, axs = plt.subplots(1, 1, sharey=True, tight_layout=True)
 	axs.hist(data, bins=nBins)
-	plt.show()
+	#plt.show()
 
 	#second query
 	query = read_file_to_string('query2.txt')
