@@ -104,9 +104,14 @@ def form():
 @app.route('/query-1', methods=['POST'])
 def venue_handler():
   	#read queries into string
-	query = read_file_to_string('query.txt')
+	if(request.form['select'] == 'average adg'):
+		query = read_file_to_string('query.txt')
+	else:
+		query = read_file_to_string('lifespan query.txt')
+
 	rows = connect(query)
-	heads = ['vigor', 'average adg']
+	heads = ['vigor', request.form['select']]
+
 	return render_template('my-result.html', rows=rows, heads=heads)
 
 # handle query POST and serve result web page

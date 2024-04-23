@@ -5,13 +5,16 @@
         <title>Group 15 UI</title>
     </head>
     <body>
-	    <h3>Flask|Python|Psycopg2|PostgreSQL</h3>
+	    <h3>A Look Into The Goat Database</h3>
 
 	    <h4>Question 1 - Does Vigor score correlate with traits?</h4>
         <form action="/query-1" method="POST">
             <div>
-                Choose a trait to compare vigor score to
-                <input type="text" name="venue_id">
+                Trait:
+                <select name="select" class="Input">
+					<option>average adg</option>
+					<option>lifespan</option>
+				</select>
             </div>
                 <input type="submit" value="Submit">
         </form>
@@ -21,10 +24,16 @@
             <div>
 		        Enter any two years between 2012 and 2023
                 <br />
-		        <input type="text" name="query1">
-				<input type="text" name="query2">
+		        year 1: <input type="text" name="query1">
+				<br />
+				year 2: <input type="text" name="query2">
             </div>
                 <input type="submit" value="Submit">
+			<br />
+			<div>
+				OR compare all years
+				<input type="submit" value="ALL YEARS">
+			<div>
         </form>
     </body>
 
