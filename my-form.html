@@ -10,19 +10,19 @@
 	    <h4>Question 1 - Does Vigor score correlate with traits?</h4>
         <form action="/query-1" method="POST">
             <div>
-                Find all the events at this venue_id
+                Choose a trait to compare vigor score to
                 <input type="text" name="venue_id">
             </div>
                 <input type="submit" value="Submit">
         </form>
 
 	    <h4>Question 2 - comparing birthweights for each year</h4>
-        <form action="/query-handler" method="POST">
+        <form action="/year-input" method="POST">
             <div>
 		        Enter any two years between 2012 and 2023
                 <br />
-	            Example: 2012, 2023
-		        <input type="text" name="query">
+		        <input type="text" name="query1">
+				<input type="text" name="query2">
             </div>
                 <input type="submit" value="Submit">
         </form>

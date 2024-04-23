@@ -110,10 +110,24 @@ def venue_handler():
 	return render_template('my-result.html', rows=rows, heads=heads)
 
 # handle query POST and serve result web page
-@app.route('/query-handler', methods=['POST'])
+@app.route('/year-input', methods=['POST'])
 def query_handler():
-    rows = connect(request.form['query'])
-    return render_template('my-result.html', rows=rows)
+	#get query from text file
+	query = read_file_to_string('query2.txt')
+	#take input from form
+	year1 = request.form['query1']
+	year2 = request.form['query2']
+	
+	#years default to 2012 and 2023 if not in range
+	if(int(year1) < 2012 or int(year1) > 2023):
+		year1 = "2012"
+	if(int(year2) < 2012 or int(year2) > 2023):
+		year2 = "2023"
+
+	#execute query and render html
+	rows = connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + ";")
+	heads = ['year', 'average birthweight']
+	return render_template('my-result.html', rows=rows)
 
 if __name__ == '__main__':
 	app.run(debug = True)
