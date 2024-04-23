@@ -13,4 +13,16 @@ CREATE VIEW averages AS
 	GROUP BY Year
 	ORDER BY Year;
 
+CREATE VIEW MaleBW AS
+	SELECT Year, ROUND(AVG(weight):: numeric, 3) as Mbw
+	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
+	WHERE sex = 'Male' OR sex = 'Wether' OR sex = 'M' OR sex = 'Desexed M'
+	GROUP BY Year
+	ORDER BY Year;
 
+CREATE VIEW FemaleBW AS
+	SELECT Year, ROUND(AVG(weight):: numeric, 3) as Fbw
+	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
+	WHERE sex = 'Female'
+	GROUP BY Year
+	ORDER BY Year;
