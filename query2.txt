@@ -20,6 +20,8 @@ CREATE VIEW MaleBW AS
 	GROUP BY Year
 	ORDER BY Year;
 
+
+
 CREATE VIEW FemaleBW AS
 	SELECT Year, ROUND(AVG(weight):: numeric, 3) as Fbw
 	FROM BirthWeight JOIN BirthYear ON BirthWeight.goat_id = BirthYear.goat_id
