@@ -20,7 +20,8 @@ CREATE VIEW MaleBW AS
 	GROUP BY Year
 	ORDER BY Year;
 
-
+SELECT * 
+FROM MaleBW; 
 
 CREATE VIEW FemaleBW AS
 	SELECT Year, ROUND(AVG(weight):: numeric, 3) as Fbw
@@ -28,3 +29,6 @@ CREATE VIEW FemaleBW AS
 	WHERE sex = 'Female'
 	GROUP BY Year
 	ORDER BY Year;
+
+SELECT * 
+FROM FemaleBW; 
