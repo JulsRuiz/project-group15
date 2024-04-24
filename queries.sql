@@ -64,18 +64,6 @@ CREATE VIEW FemaleBW AS
 	GROUP BY Year
 	ORDER BY Year;
 
---Just their birthweights
-SELECT *
-FROM GoatBW;
-
---Female birthweights
-SELECT *
-FROM MaleBW;
-
---Male birthweights
-SELECT *
-FROM FemaleBW;
-
 DROP VIEW GoatBW;
 DROP VIEW MaleBW;
 DROP VIEW FemaleBW;
