@@ -1,16 +1,3 @@
-CREATE VIEW Births AS
-	SELECT goat_id, dob AS date
-	FROM Goat;
-
-CREATE VIEW Deaths AS
-	SELECT goat_id, status_date AS date
-	FROM Goat
-	WHERE status = 'Dead';
-
-CREATE VIEW Lifespan AS
-	SELECT Births.goat_id, Deaths.date - Births.date AS Lifespan
-	FROM Births JOIN Deaths ON Births.goat_id = Deaths.goat_id;
-
 SELECT CAST(alpha_value as integer) as vigor, ROUND(AVG(EXTRACT('Day' FROM Lifespan)), 3) as Lifespan
 FROM Trait JOIN Lifespan
 ON Trait.goat_id=Lifespan.goat_id
