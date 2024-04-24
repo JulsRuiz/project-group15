@@ -30,6 +30,11 @@ Database Creation and Population Instructions:
 
 End User Usage Instructions: 
 -
+1. Pick one of the two traits from the dropdown, adg and 
+
+
+
+
 
 Queries and Views:
 -
