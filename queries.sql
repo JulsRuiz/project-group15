@@ -1,14 +1,3 @@
-
---Get the Average adg for each vigor score
-SELECT CAST(alpha_value AS integer) AS vigor, ROUND(AVG(overall_adg::float)::numeric, 3) AS average_adg
-FROM Trait LEFT JOIN Goat 
-ON Trait.goat_id=Goat.goat_id
-WHERE trait_code=(
-	SELECT picklistvalue_id FROM Picklist WHERE value='Vigor Score'
-) AND NOT alpha_value::integer = -1
-GROUP BY vigor
-ORDER BY vigor;
-
 --Get the life span of each goat
 
 CREATE VIEW Births AS
@@ -23,14 +12,6 @@ CREATE VIEW Deaths AS
 CREATE VIEW Lifespan AS
 	SELECT Births.goat_id, Deaths.date - Births.date AS Lifespan
 	FROM Births JOIN Deaths ON Births.goat_id = Deaths.goat_id;
-
---Lifespan of every goat that died on the farm
-SELECT goat_id, EXTRACT('Day' FROM Lifespan) as Lifespan
-FROM Lifespan;
-
-DROP VIEW Lifespan;
-DROP VIEW Births;
-DROP VIEW Deaths;
 
 --Get the average birth weight for each year
 
@@ -63,9 +44,3 @@ CREATE VIEW FemaleBW AS
 	WHERE sex = 'Female'
 	GROUP BY Year
 	ORDER BY Year;
-
-DROP VIEW GoatBW;
-DROP VIEW MaleBW;
-DROP VIEW FemaleBW;
-DROP VIEW BirthYear;
-DROP VIEW BirthWeight;
