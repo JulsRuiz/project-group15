@@ -135,7 +135,8 @@ def query_handler():
 	return render_template('my-result.html', rows=rows)
 
 if __name__ == '__main__':
-	app.run(debug = True)
+	"""
+	#app.run(debug = True)
 	#read queries into string
 	query = read_file_to_string('query.txt')
 	row = connect(query)
@@ -150,18 +151,31 @@ if __name__ == '__main__':
 	fig, axs = plt.subplots(1, 1, sharey=True, tight_layout=True)
 	axs.hist(data, bins=nBins)
 	#plt.show()
-
+	"""
 	#second query
-	query = read_file_to_string('query2.txt')
-	year1 = input("Enter year 1: \n")
-	year2 = input("Enter year 2: \n")
-	
-	print(connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + ";"))
-	
-	# gets the average male and female birthweights for the two years the user enters. 
-	print(connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + " AND Sex= 'Female' " + ";"))
-	print(connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + " AND Sex = 'Male' OR Sex = 'Desexed Male' OR Sex = 'M' OR Sex = 'Wether' " + ";"))
+	years = ("2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")
+	maleBWs = []
+	femaleBWs = []
+	for i in range(0, len(years)):
+		yearWeight = connect("SELECT Mbw FROM MaleBW WHERE Year=" + years[i] + ";")
+		maleBWs.append(yearWeight[0][0])
+		yearWeight = connect("SELECT Fbw FROM FemaleBW WHERE Year=" + years[i] + ";")
+		femaleBWs.append(yearWeight[0][0])
+	print(maleBWs)
 
-	# gets the average male and female birthweights for all years 
-	print(connect(query + " SELECT * FROM averages WHERE Sex = 'Female' " + ";"))
-	print(connect(query + " SELECT * FROM averages WHERE Sex = 'Male' OR Sex = 'Desexed Male' OR Sex = 'M' OR Sex = 'Wether' " + ";"))
+	birthweightData = {
+		"Males": maleBWs,
+		"Females": femaleBWs,
+	}
+	x = np.arange(len(years))  # the label locations
+	width = 0.25  # the width of the bars
+	multiplier = 0
+
+	fig, ax = plt.subplots(layout='constrained')
+
+	for attribute, measurement in birthweightData.items():
+		offset = width * multiplier
+		rects = ax.bar(x + offset, measurement, width, label=attribute)
+		ax.bar_label(rects, padding=3)
+		multiplier += 1
+	plt.show()
