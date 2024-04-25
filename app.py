@@ -130,8 +130,18 @@ def query_handler():
 		year2 = "2023"
 
 	#execute query and render html
-	rows = connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + ";")
+	rows = connect(query + " SELECT * FROM GoatBW WHERE Year=" + year1 + " OR Year=" + year2 + ";")
 	heads = ['year', 'average birthweight']
+	return render_template('my-result.html', rows=rows)
+
+def male_bw():
+	rows = connect(query + " SELECT * FROM MaleBW" + ";")
+	columns = ['year', 'male average birthweight']
+	return render_template('my-result.html', rows=rows)
+
+def female_bw():
+	rows = connect(query + " SELECT * FROM FemaleBW" + ";")
+	columns = ['year', 'female average birthweight']
 	return render_template('my-result.html', rows=rows)
 
 if __name__ == '__main__':
