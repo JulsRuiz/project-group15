@@ -135,14 +135,16 @@ def query_handler():
 	return render_template('my-result.html', rows=rows)
 
 def male_bw():
-	rows = connect(query + " SELECT * FROM MaleBW" + ";")
-	columns = ['year', 'male average birthweight']
-	return render_template('my-result.html', rows=rows)
+	if(request.form['select'] == 'Male avg birth weight'):
+		rows = connect(query + " SELECT * FROM MaleBW" + ";")
+		columns = ['year', 'male average birthweight']
+		return render_template('my-result.html', rows=rows)
 
 def female_bw():
-	rows = connect(query + " SELECT * FROM FemaleBW" + ";")
-	columns = ['year', 'female average birthweight']
-	return render_template('my-result.html', rows=rows)
+	if(request.form['select'] == 'Female avg birth weight'):
+		rows = connect(query + " SELECT * FROM FemaleBW" + ";")
+		columns = ['year', 'female average birthweight']
+		return render_template('my-result.html', rows=rows)
 
 if __name__ == '__main__':
 	"""
