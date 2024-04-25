@@ -157,7 +157,11 @@ if __name__ == '__main__':
 	year2 = input("Enter year 2: \n")
 	
 	print(connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + ";"))
+	
+	# gets the average male and female birthweights for the two years the user enters. 
 	print(connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + " AND Sex= 'Female' " + ";"))
 	print(connect(query + " SELECT * FROM averages WHERE Year=" + year1 + " OR Year=" + year2 + " AND Sex = 'Male' OR Sex = 'Desexed Male' OR Sex = 'M' OR Sex = 'Wether' " + ";"))
 
-
+	# gets the average male and female birthweights for all years 
+	print(connect(query + " SELECT * FROM averages WHERE Sex = 'Female' " + ";"))
+	print(connect(query + " SELECT * FROM averages WHERE Sex = 'Male' OR Sex = 'Desexed Male' OR Sex = 'M' OR Sex = 'Wether' " + ";"))
