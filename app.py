@@ -137,12 +137,12 @@ def query_handler():
 @app.route('/gender-input', methods=['POST'])
 def male_bw():
 	if(request.form['select'] == 'Male avg birth weight'):
-		rows = connect("SELECT * FROM MaleBW;")
+		rowsBW = connect("SELECT * FROM MaleBW;")
 		columns = ['year', 'male average birthweight']
 	else:
-		rows = connect("SELECT * FROM FemaleBW;")
+		rowsBW = connect("SELECT * FROM FemaleBW;")
 		columns = ['year', 'female average birthweight']
-	return render_template('my-result.html', rows=rows, columns=columns)	
+	return render_template('my-result.html', rowsBW=rowsBW, columns=columns)	
 
 def female_bw():
 	if(request.form['select'] == 'Female avg birth weight'):
