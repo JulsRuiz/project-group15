@@ -130,21 +130,25 @@ def query_handler():
 		year2 = "2023"
 
 	#execute query and render html
-	rows = connect(query + " SELECT * FROM GoatBW WHERE Year=" + year1 + " OR Year=" + year2 + ";")
+	rows = connect("SELECT * FROM GoatBW WHERE Year=" + year1 + " OR Year=" + year2 + ";")
 	heads = ['year', 'average birthweight']
-	return render_template('my-result.html', rows=rows)
+	return render_template('my-result.html', rows=rows, heads=heads)
 
+@app.route('/gender-input', methods=['POST'])
 def male_bw():
 	if(request.form['select'] == 'Male avg birth weight'):
-		rows = connect(query + " SELECT * FROM MaleBW" + ";")
+		rows = connect("SELECT * FROM MaleBW;")
 		columns = ['year', 'male average birthweight']
-		return render_template('my-result.html', rows=rows)
+	else:
+		rows = connect("SELECT * FROM FemaleBW;")
+		columns = ['year', 'female average birthweight']
+	return render_template('my-result.html', rows=rows, columns=columns)	
 
 def female_bw():
 	if(request.form['select'] == 'Female avg birth weight'):
 		rows = connect(query + " SELECT * FROM FemaleBW" + ";")
 		columns = ['year', 'female average birthweight']
-		return render_template('my-result.html', rows=rows)
+		return render_template('my-result.html', rows=rows, columns=columns)
 
 if __name__ == '__main__':
 	"""
