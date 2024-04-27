@@ -144,11 +144,11 @@ def male_bw():
 		columns = ['year', 'female average birthweight']
 	return render_template('my-result.html', rowsBW=rowsBW, columns=columns)	
 
-def female_bw():
-	if(request.form['select'] == 'Female avg birth weight'):
-		rows = connect(query + " SELECT * FROM FemaleBW" + ";")
-		columns = ['year', 'female average birthweight']
-		return render_template('my-result.html', rows=rows, columns=columns)
+@app.route('/all-years', methods=['POST'])
+def all_bw():
+	rowsBW = connect("SELECT * FROM GoatBW;")
+	columns = ["year", "average birth weight"]
+	return render_template('my-result.html', rowsBW=rowsBW, columns=columns)
 
 if __name__ == '__main__':
 	"""
@@ -194,4 +194,11 @@ if __name__ == '__main__':
 		rects = ax.bar(x + offset, measurement, width, label=attribute)
 		ax.bar_label(rects, padding=3)
 		multiplier += 1
+
+	# Add some text for labels, title and custom x-axis tick labels, etc.
+	ax.set_ylabel('Birth Weight')
+	ax.set_title('Birth Weights for male and female goats')
+	ax.set_xticks(x + width, years)
+	ax.legend(loc='upper left', ncols=2)
+	#ax.set_ylim(0, 250)
 	plt.show()
