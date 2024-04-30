@@ -30,11 +30,17 @@ Database Creation and Population Instructions:
 
 End User Usage Instructions: 
 -
-1. Pick one of the two traits from the dropdown, adg and 
+For question 1: 
+1. Pick one of the two traits from the dropdown, adg and
+2. Click submit and the interface will direct you to the page with the data.
 
+For question 2:
+1. Enter 2 years in the range of 2012-2023
+2. If the years entered are not in that range, the database will default to 2012 and 2023 as the range of years
+3. Click submit and the interface will direct you to the page with the data.
 
-
-
+To get the male and female birthweights separately: 
+1. Pick male or female from the dropdown and click submit.
 
 Queries and Views:
 -
