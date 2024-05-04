@@ -52,7 +52,8 @@ import psycopg2
 from config import config
 import matplotlib.pyplot as plt
 import numpy as np
-
+from io import BytesIO
+import base64
 import matplotlib as mpl
 from flask import Flask, render_template, request
 
@@ -91,6 +92,21 @@ def read_file_to_string(filename):
 	content = file.read()
 	return content
 
+def makeVigorGraph(xData, yData, xName, yName):
+	fig, ax = plt.subplots()
+	bar_labels = xData
+	ax.bar(xData, yData, label=bar_labels)
+	ax.set_ylabel(yName)
+
+def birthWeightGraph(maleWeights, femaleWeights):
+	n_bins = 20
+
+	fig, axs = plt.subplots(1, 2, sharey=True, tight_layout=True)
+
+	# We can set the number of bins with the *bins* keyword argument.
+	axs[0].hist(maleWeights, bins=n_bins)
+	axs[1].hist(femaleWeights, bins=n_bins)
+
 # app.py
 app = Flask(__name__)
 
@@ -106,13 +122,37 @@ def venue_handler():
   	#read queries into string
 	if(request.form['select'] == 'average adg'):
 		query = read_file_to_string('query.txt')
+		#make bar graph for adg
+		combinedData = connect(query)
+		vigorScores = []
+		adg = []
+		for i in range(0, len(combinedData)):
+			if(combinedData[i][0] != 71):
+				vigorScores.append(combinedData[i][0])
+				adg.append(combinedData[i][1])
+		makeVigorGraph(vigorScores, adg, "vigor score", "average daily gain")
 	else:
 		query = read_file_to_string('lifespan query.txt')
+		#bar graph for lifespan
+		query = read_file_to_string('lifespan query.txt')
+		combinedData = connect(query)
+		vigorScores = []
+		lifespans = []
+		for i in range(0, len(combinedData)):
+			vigorScores.append(combinedData[i][0])
+			lifespans.append(combinedData[i][1])
+		makeVigorGraph(vigorScores, lifespans, "vigor score", "lifespan in days")
 
 	rows = connect(query)
 	heads = ['vigor', request.form['select']]
 
-	return render_template('my-result.html', rows=rows, heads=heads)
+	buf = BytesIO()
+	plt.savefig(buf, format="png")
+	buf.seek(0)
+	data = base64.b64encode(buf.getvalue()).decode()
+	plt.close()
+
+	return render_template('my-result.html', rows=rows, heads=heads, data=data)
 
 # handle query POST and serve result web page
 @app.route('/year-input', methods=['POST'])
@@ -142,32 +182,7 @@ def male_bw():
 	else:
 		rowsBW = connect("SELECT * FROM FemaleBW;")
 		columns = ['year', 'female average birthweight']
-	return render_template('my-result.html', rowsBW=rowsBW, columns=columns)	
 
-@app.route('/all-years', methods=['POST'])
-def all_bw():
-	rowsBW = connect("SELECT * FROM GoatBW;")
-	columns = ["year", "average birth weight"]
-	return render_template('my-result.html', rowsBW=rowsBW, columns=columns)
-
-if __name__ == '__main__':
-	"""
-	#app.run(debug = True)
-	#read queries into string
-	query = read_file_to_string('query.txt')
-	row = connect(query)
-	
-	data = []
-	for i in range(0, len(row)):
-		if(row[i][0] is not None and row[i][0].days is not None and row[i][0].days > 0):
-			data.append(row[i][0].days)
-
-	nPoints = len(data)
-	nBins = 40
-	fig, axs = plt.subplots(1, 1, sharey=True, tight_layout=True)
-	axs.hist(data, bins=nBins)
-	#plt.show()
-	"""
 	#second query
 	years = ("2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")
 	maleBWs = []
@@ -177,7 +192,6 @@ if __name__ == '__main__':
 		maleBWs.append(yearWeight[0][0])
 		yearWeight = connect("SELECT Fbw FROM FemaleBW WHERE Year=" + years[i] + ";")
 		femaleBWs.append(yearWeight[0][0])
-	print(maleBWs)
 
 	birthweightData = {
 		"Males": maleBWs,
@@ -201,4 +215,19 @@ if __name__ == '__main__':
 	ax.set_xticks(x + width, years)
 	ax.legend(loc='upper left', ncols=2)
 	#ax.set_ylim(0, 250)
-	plt.show()
+
+	buf = BytesIO()
+	plt.savefig(buf, format="png")
+	buf.seek(0)
+	data = base64.b64encode(buf.getvalue()).decode()
+	plt.close()
+
+	return render_template('my-result.html', rowsBW=rowsBW, columns=columns, data=data)	
+
+@app.route('/all-years', methods=['POST'])
+def all_bw():
+	rowsBW = connect("SELECT * FROM GoatBW;")
+	columns = ["year", "average birth weight"]
+	return render_template('my-result.html', rowsBW=rowsBW, columns=columns)
+	
+	
