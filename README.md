@@ -15,18 +15,20 @@ Database Creation and Population Instructions:
    
     \q --> to exit the database
    
-4. Install python pip and psycopg2 packages with the following commands:
+4. Install python pip, psycopg2, and matplotlib packages with the following commands:
    
    sudo pacman -Syu
    
    sudo pacman -S python-pip python-psycopg2 python-flask
+
+   sudo pacman -S python-matplotlib
    
-5. Run the Flask application with the following commands:
+6. Run the Flask application with the following commands:
 
    export FLASK_APP=app.py
 
    flask run
-6. Click on the link provided http://127.0.0.1:5000/
+7. Click on the link provided http://127.0.0.1:5000/
 
 End User Usage Instructions: 
 -
